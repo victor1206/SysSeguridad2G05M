@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SysSeguridad2G05M.EN\SysSeguridad2G05M.EN.csproj" />
+  </ItemGroup>
+
 </Project>
