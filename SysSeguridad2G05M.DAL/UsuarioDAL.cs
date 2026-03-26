@@ -49,6 +49,7 @@ namespace SysSeguridad2G05M.DAL
                     if (existeLogin == false)
                     {
                         EncriptarMD5(pUsuario);
+                        pUsuario.FechaRegistro = DateTime.Now;
                         dbContexto.Add(pUsuario);
                         result = await dbContexto.SaveChangesAsync();
                     }

@@ -2,19 +2,86 @@
 
 @{
     ViewData["Title"] = "Index";
+    int numPage = 0;
+    int numRegistros = 0;
+    int numRegistrosPorPage = 10;
+    int[] tops = { 10,20,50,100,500,1000,10000,-1};
+    int topActual = (int)ViewBag.Top;
+    List<SysSeguridad2G05M.EN.Rol> roles = ViewBag.Roles as List<SysSeguridad2G05M.EN.Rol>;
 }
 
-<h1>Index</h1>
+<h1>Buscar Usuario</h1>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Index">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="control-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Apellido</label>
+                        <input type="text" class="form-control" name="apellido" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Login</label>
+                        <input type="text" class="form-control" name="login" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Rol</label>
+                        <select name="idrol" class="form-control">
+                            <option value="0">Seleccionar Rol</option>
+                            @foreach (var item in roles)
+                            {
+                                <option value="@item.Id">@item.Nombre</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Top</label>
+                        <select name="top_aux" class="form-control">
+                            @foreach (var item in tops)
+                            {
+                                string strItem = item != -1 ? item.ToString() : "Todos";
+                                if (item != topActual)
+                                {
+                                    <option value="@item">@strItem</option>
+                                }
+                                else
+                                {
+                                    <option selected value="@item">@strItem</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="Buscar" class="btn btn-primary" />
+                        <a asp-action="Create" class="btn btn-dark">Nuevo</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdRol)
             </th>
@@ -28,19 +95,7 @@
                 @Html.DisplayNameFor(model => model.Login)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estatus)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.FechaRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Top_Aux)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ConfirmPassword_aux)
             </th>
             <th></th>
         </tr>
@@ -49,10 +104,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdRol)
+                @Html.DisplayFor(modelItem => item.Rol.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -64,24 +116,12 @@
                 @Html.DisplayFor(modelItem => item.Login)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estatus)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.FechaRegistro)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Top_Aux)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConfirmPassword_aux)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Modificar", "Edit", new { Id = item.Id }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("Ver", "Details", new {  Id=item.Id }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { Id=item.Id }, new { @class = "btn btn-danger" })
             </td>
         </tr>
 }

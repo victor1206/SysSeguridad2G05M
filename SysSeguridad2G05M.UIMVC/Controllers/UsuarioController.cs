@@ -37,23 +37,28 @@ namespace SysSeguridad2G05M.UIMVC.Controllers
         }
 
         // GET: UsuarioController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Roles = await rolBL.ObtenerTodosAsync();
+            ViewBag.Error = "";
             return View();
         }
 
         // POST: UsuarioController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(Usuario pUsuario)
         {
             try
             {
+                int result = await usuariobl.CrearAsync(pUsuario);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.Roles = await rolBL.ObtenerTodosAsync();
+                return View(pUsuario);
             }
         }
 
