@@ -44,5 +44,10 @@ namespace SysSeguridad2G05M.BL
         {
             return await UsuarioDAL.BuscarIncluirRolesAsync(pUsuario);
         }
+
+        public async Task<Usuario> LoginAsync(Usuario pUsuario)
+        {
+            return await UsuarioDAL.LoginAsync(pUsuario);
+        }
     }
 }

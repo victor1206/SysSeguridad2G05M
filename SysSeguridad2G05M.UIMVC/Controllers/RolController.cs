@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using SysSeguridad2G05M.BL;
@@ -6,6 +8,7 @@ using SysSeguridad2G05M.EN;
 
 namespace SysSeguridad2G05M.UIMVC.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class RolController : Controller
     {
         RolBL rolbl = new RolBL();
